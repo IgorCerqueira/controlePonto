@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        
         $userId = (auth()->id());
 
         $request->validate([
@@ -42,35 +43,65 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-   
-        $user = User::create([
-            'name' => $request->name,
-            'cpf' => $request->cpf,
-            'cargo' => $request->cargo,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'isAdmin' => $request->isAdmin,
-            'user_id_gestor' => $userId
-        ]);
-
-        $idCadastro = DB::table('users')
-            ->select('id')
-            ->where('cpf', '=', $request->cpf)
-            ->get();
-
-        foreach($idCadastro as $cadastroId){
-            $idCadastro = ($cadastroId->id);
-        }
-
-        $requestDataEndereco = $request->all();
-        $requestDataEndereco['user_id'] = $idCadastro;
         
-        $endereco = Endereco::create($requestDataEndereco);
+        if($this->validaCPF($request->cpf)){
+            $user = User::create([
+                'name' => $request->name,
+                'cpf' => $request->cpf,
+                'cargo' => $request->cargo,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'isAdmin' => $request->isAdmin,
+                'user_id_gestor' => $userId
+            ]);
+            
+            $idCadastro = DB::table('users')
+                ->select('id')
+                ->where('cpf', '=', $request->cpf)
+                ->get();
+                
+            foreach($idCadastro as $cadastroId){
+                $idCadastro = ($cadastroId->id);
+            }
 
-        event(new Registered($user));
+            $requestDataEndereco = $request->all();
+        
+            $requestDataEndereco['user_id'] = $idCadastro;
+            
+            $endereco = Endereco::create($requestDataEndereco);
 
-        Auth::login($user);
+            event(new Registered($user));
+            
+            Auth::login($user);
+        
+            dd('Criado com sucesso(mudar depois)');
+        }
+        else{
+            return("CPF inválido");
+        }
+    }
 
-        dd('Criado com sucesso(mudar depois)');
+    function validaCPF($cpf) {
+ 
+        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+         
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+    
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+    
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+        return true;
     }
 }

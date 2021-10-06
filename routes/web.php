@@ -23,12 +23,14 @@ Route::get('/', function () {
 
 Route::middleware(['admin'])->group( function(){
     Route::get('/AdminDashboard', [AdminController::class, 'index'])->name('admin.index');
-
+    
 });
 
 //UserComum
 Route::middleware(['commonUser'])->group( function(){
     Route::get('/dashboard', [CommonUserController::class, 'index'])->name('commonUser.index');
+    Route::post('/ponto', [CommonUserController::class, 'registraPonto'])->name('commonUser.registraPonto');
+    Route::post('/mudarSenha', [CommonUserController::class, 'changePassword'])->name('commonUser.mudarSenha');
 });
 
 

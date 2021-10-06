@@ -13,8 +13,9 @@
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
             </div>
-            <label>CPF:
-            <input name="cpf" type="text" id="cpf" size="60" /></label><br />
+            <div>
+            <label>CPF:</label>
+            <input name="cpf" :value="__('cpf')" type="text" id="cpf" for="cpf" size="60"  /><br />
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
