@@ -52,7 +52,8 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'isAdmin' => $request->isAdmin,
-                'user_id_gestor' => $userId
+                'user_id_gestor' => $userId,
+                'isDeleted' => $request->isDeleted
             ]);
             
             $idCadastro = DB::table('users')

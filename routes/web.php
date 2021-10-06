@@ -23,10 +23,11 @@ Route::get('/', function () {
 
 Route::middleware(['admin'])->group( function(){
     Route::get('/AdminDashboard', [AdminController::class, 'index'])->name('admin.index');
-    
+    Route::get('/listaUser', [AdminController::class, 'listaUsers'])->name('admin.listUser');
+    Route::put('/editaUser/{idUser}', [AdminController::class, 'editaUser'])->name('admin.editUser');
+    Route::put('/deleteUser/{idUser}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 });
 
-//UserComum
 Route::middleware(['commonUser'])->group( function(){
     Route::get('/dashboard', [CommonUserController::class, 'index'])->name('commonUser.index');
     Route::post('/ponto', [CommonUserController::class, 'registraPonto'])->name('commonUser.registraPonto');

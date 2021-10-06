@@ -80,9 +80,5 @@ class CommonUserController extends Controller
     else{
         return('A senha atual não confere');
     }
-
-
-    
-
   }
 }

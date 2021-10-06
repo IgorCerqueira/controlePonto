@@ -25,6 +25,7 @@ class User extends Authenticatable
         'isAdmin',
         'cargo',
         'user_id_gestor',
+        'isDeleted'
     ];
 
     /**
@@ -45,4 +46,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $table = 'users';
 }

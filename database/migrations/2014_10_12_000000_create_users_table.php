@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('isAdmin');
+            $table->boolean('isDeleted');
             $table->rememberToken();
             $table->timestamps();
             $table->foreignId('user_id_gestor')->constrained('users');

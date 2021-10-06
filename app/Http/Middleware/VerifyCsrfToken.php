@@ -15,6 +15,8 @@ class VerifyCsrfToken extends Middleware
         '/ponto',
         '/login',
         '/mudarSenha',
-        '/register'
+        '/register',
+        '/editaUser/*',
+        '/deleteUser/*'
     ];
 }
