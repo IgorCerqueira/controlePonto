@@ -19,6 +19,7 @@ class AdminController extends Controller
         $users = DB::table('users')
         ->select('CPF', 'name', 'email', 'cargo')
         ->where('isDeleted', '!=', 0)
+        ->where('isAdmin', "=", 0)
         ->get();
 
         return $users;

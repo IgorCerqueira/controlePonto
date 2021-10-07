@@ -16,13 +16,16 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        
-        if(auth()->user()->isAdmin){
-            return $next($request);
+        if(auth()->user()->isAdmin != null){
+            if(auth()->user()->isAdmin){
+                return $next($request);
+            }
+            else{
+                dd("Não autorizado");
+            }
         }
         else{
-            dd("Não autorizado");
+            return "Faça um novo login";
         }
-        
     }
 }
