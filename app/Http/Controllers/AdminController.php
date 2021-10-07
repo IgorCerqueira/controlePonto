@@ -16,12 +16,12 @@ class AdminController extends Controller
 
     public function listaUsers(){
 
-        $coins = DB::table('users')
+        $users = DB::table('users')
         ->select('CPF', 'name', 'email', 'cargo')
         ->where('isDeleted', '!=', 0)
         ->get();
 
-        return $coins;
+        return $users;
     }
 
     public function editaUser(Request $request, $id){
@@ -38,4 +38,37 @@ class AdminController extends Controller
         return('Sucesso');
         
     }
+
+    public function listPonto(){
+
+        $userId = (auth()->id());
+
+        $pontos = DB::select(
+            DB::raw(" select u.id, u.name as Funcionario, u.cargo ,g.name as Gestor, p.pontoEntrada, p.saidaAlmoco, p.entradaAlmoco, p.pontoSaida from users u
+                      inner join users g
+                         on u.user_id_gestor = g.id
+                      inner join pontos p
+                             on u.id = p.user_id
+                       Where u.user_id_gestor = $userId")
+        );
+
+        return $pontos;
+    }
+
+    public function listPontoPerDate($dataInicio, $dataFinal){
+        $userId = (auth()->id());
+        
+        dd($pontos = DB::select(
+            DB::raw(" select u.id, u.name as Funcionario, u.cargo ,g.name as Gestor, p.pontoEntrada, p.saidaAlmoco, p.entradaAlmoco, p.pontoSaida from users u
+                      inner join users g
+                         on u.user_id_gestor = g.id
+                      inner join pontos p
+                             on u.id = p.user_id
+                       Where u.user_id_gestor = $userId and DATE(p.pontoEntrada) BETWEEN '$dataInicio' and '$dataFinal'")
+        ));
+
+        return $pontos;
+    }
 }
+
+

@@ -26,6 +26,8 @@ Route::middleware(['admin'])->group( function(){
     Route::get('/listaUser', [AdminController::class, 'listaUsers'])->name('admin.listUser');
     Route::put('/editaUser/{idUser}', [AdminController::class, 'editaUser'])->name('admin.editUser');
     Route::put('/deleteUser/{idUser}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+    Route::get('/listaPonto', [AdminController::class, 'listPonto'])->name('admin.listPonto');
+    Route::get('/listaPontoData/{dataInicio}/{dataFinal}', [AdminController::class, 'listPontoPerDate'])->name('admin.listPonto');
 });
 
 Route::middleware(['commonUser'])->group( function(){
