@@ -59,14 +59,14 @@ class AdminController extends Controller
     public function listPontoPerDate($dataInicio, $dataFinal){
         $userId = (auth()->id());
         
-        dd($pontos = DB::select(
+        $pontos = DB::select(
             DB::raw(" select u.id, u.name as Funcionario, u.cargo ,g.name as Gestor, p.pontoEntrada, p.saidaAlmoco, p.entradaAlmoco, p.pontoSaida from users u
                       inner join users g
                          on u.user_id_gestor = g.id
                       inner join pontos p
                              on u.id = p.user_id
                        Where u.user_id_gestor = $userId and DATE(p.pontoEntrada) BETWEEN '$dataInicio' and '$dataFinal'")
-        ));
+        );
 
         return $pontos;
     }

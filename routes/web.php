@@ -36,8 +36,6 @@ Route::middleware(['commonUser'])->group( function(){
     Route::post('/mudarSenha', [CommonUserController::class, 'changePassword'])->name('commonUser.mudarSenha');
 });
 
-
-
 require __DIR__.'/auth.php';
 
 
