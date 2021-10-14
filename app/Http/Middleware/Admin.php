@@ -37,7 +37,5 @@ class Admin
                 return redirect(RouteServiceProvider::LOGIN);
             }
         }
-
-        
     }
 }
